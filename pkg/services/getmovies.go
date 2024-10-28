@@ -51,7 +51,7 @@ func GetMovie(w http.ResponseWriter, r *http.Request) {
 
 	var movie models.Movie
 
-	err = db.QueryRow("SELECT * FROM movies WHERE tmdb_id = ?", params["id"]).Scan(&movie.ID, &movie.TMDBID, &movie.Title, &movie.Overview, &movie.ReleaseDate, &movie.Language, &movie.Popularity, &movie.VoteAverage, &movie.VoteCount, &movie.PosterPath, &movie.BackdropPath, &movie.CreatedAt, &movie.UpdatedAt)
+	err = db.QueryRow("SELECT * FROM movies WHERE id = ?", params["id"]).Scan(&movie.ID, &movie.TMDBID, &movie.Title, &movie.Overview, &movie.ReleaseDate, &movie.Language, &movie.Popularity, &movie.VoteAverage, &movie.VoteCount, &movie.PosterPath, &movie.BackdropPath, &movie.CreatedAt, &movie.UpdatedAt)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			// If no movie is found, return an empty movie object
