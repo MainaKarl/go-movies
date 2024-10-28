@@ -20,5 +20,5 @@ CREATE TABLE movies (
 
 -- +goose Down
 -- +goose StatementBegin
-SELECT 'down SQL query';
+DROP TABLE movies;  
 -- +goose StatementEnd
