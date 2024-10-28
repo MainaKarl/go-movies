@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func FetchMovieFromTMDB(db *sql.DB) (*models.TMDBMovie, error) {
+func FetchMovieFromTMDB(db *sql.DB) ([]models.TMDBMovie, error) {
 	apiKey := models.NewConfig.Apikey
 	baseUrl := models.NewConfig.BaseURL
 	url := fmt.Sprintf("%s?api_key=%s", baseUrl, apiKey)
@@ -26,17 +26,11 @@ func FetchMovieFromTMDB(db *sql.DB) (*models.TMDBMovie, error) {
 		return nil, err
 	}
 
-	// Check if we received any results
-	// if len(tmdbResponse.Results) == 0 {
-	// 	return nil, fmt.Errorf("no results found for movie ID %s", movieID)
-	// }
-
-	movie := tmdbResponse.Results[0] // Get the first result
-
-	// Save fetched movie to the database
-	if err := SaveMovieToDB(db, &movie); err != nil {
-		return nil, err
+	for _, movie := range tmdbResponse.Results {
+		if err := SaveMovieToDB(db, &movie); err != nil {
+			fmt.Printf("Error saving movie %s to DB: %v\n", movie.Title, err)
+		}
 	}
 
-	return &movie, nil
+	return tmdbResponse.Results, nil
 }
