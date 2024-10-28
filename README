@@ -1,0 +1,74 @@
+# Movie Management API
+
+This is a Go project that interacts with The Movie Database (TMDB) API to fetch movie data, which is then stored in a local SQLite3 database. The project allows users to perform various operations on the movie data, including fetching all movies, retrieving movies by their ID, deleting movies, and updating movie details via API requests.
+
+## Features
+
+- **Fetch Movies from TMDB**: Retrieve movie data from the TMDB API service.
+- **Store in Local SQLite3 Database**: Save the fetched movie data in a local SQLite3 database for easy access.
+- **API Endpoints**:
+  - **Get All Movies**: Retrieve a list of all movies stored in the local database.
+  - **Get Movie by ID**: Fetch details of a specific movie using its ID.
+  - **Delete Movie**: Remove a movie from the local database.
+  - **Update Movie**: Modify the details of an existing movie in the local database.
+
+## Requirements
+
+- Go (version 1.16 or later)
+- SQLite3 (for local database)
+- TMDB API Key (sign up at [TMDB](https://www.themoviedb.org/) to get your API key)
+
+## Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone <repository-url>
+   cd <project-directory>
+
+   ```
+
+2. Create a .env file in the project root directory:
+
+   ```bash
+   BASE_URL=<your_tmdb_base_url>
+   API_KEY=<your_tmdb_api_key> 
+   ```
+
+   Replace <your_tmdb_base_url> with the base URL for the TMDB API (eg., https://api.themoviedb.org/3) and <your_tmdb_api_key> with your actual TMDB API key.
+
+3. Install necessary dependencies:
+
+   ```bash
+   go mod tidy
+   ```
+
+## Usage
+
+To run the application, use the following command:
+
+   ```bash
+   go run main.go
+   ```
+
+API Endpoints
+
+GET /movies
+Description: Fetch all movies.
+Response: A list of movies stored in the local database.
+
+GET /movies/{id}
+Description: Fetch a movie by its ID.
+Parameters: id (the ID of the movie).
+Response: Details of the specified movie.
+
+DELETE /movies/{id}
+Description: Delete a movie by its ID.
+Parameters: id (the ID of the movie).
+Response: Confirmation of deletion.
+
+PUT /movies/{id}
+Description: Update a movie by its ID.
+Parameters: id (the ID of the movie) and the updated movie details in the request body.
+Response: Confirmation of the update.
+
