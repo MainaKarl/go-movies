@@ -1,10 +1,19 @@
 package models
 
 type Movie struct {
-	ID       string    `json:"id"`
-	Isbn     string    `json:"isbn"`
-	Title    string    `json:"title"`
-	Director *Director `json:"director"`
+	ID           int    `json:"id"`
+	TMDBID       int    `json:"tmdb_id"`
+	Title        string `json:"title"`
+	Overview     string `json:"overview"`
+	ReleaseDate  string `json:"release_date"`
+	Language     string `json:"language"`
+	Popularity   string `json:"popularity"`
+	VoteAverage  string `json:"vote_average"`
+	VoteCount    string `json:"vote_count"`
+	PosterPath   string `json:"poster_path"`
+	BackdropPath string `json:"backdrop_path"`
+	CreatedAt    string `json:"created_at"`
+	UpdatedAt    string `json:"updated_at"`
 }
 
 type Director struct {
@@ -19,6 +28,7 @@ type TMDBResponse struct {
 }
 type TMDBMovie struct {
 	ID           int     `json:"id"`
+	TMDBID       int     `json:"tmdb_id"`
 	Title        string  `json:"title"`
 	Overview     string  `json:"overview"`
 	ReleaseDate  string  `json:"release_date"`
