@@ -9,7 +9,7 @@ import (
 func SaveMovieToDB(db *sql.DB, movie *models.TMDBMovie) error {
 	query := `
 		INSERT INTO movies (tmdb_id, title, overview, release_date, language, popularity, vote_average, vote_count, poster_path, backdrop_path)
-		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 		ON CONFLICT (tmdb_id) DO NOTHING;
 	`
 
