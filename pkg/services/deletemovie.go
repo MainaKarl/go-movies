@@ -1,21 +1,44 @@
 package services
 
 import (
+	"database/sql"
 	"encoding/json"
+	"log"
 	"net/http"
+
 	"github.com/gorilla/mux"
-	"go-movie-crud/pkg/models"
 )
 
-func DeleteMovie(w http.ResponseWriter, r *http.Request){
+func DeleteMovie(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(r)
 
-	for index, item := range models.Movies {
-		if item.ID == params["id"] {
-			models.Movies = append(models.Movies[:index], models.Movies[index+1:]...)
-			break
-		}
+	db, err := sql.Open("sqlite3", "./app.db")
+	if err != nil {
+		log.Fatal(err)
 	}
-	json.NewEncoder(w).Encode(models.Movies)
+	defer db.Close()
+
+	// Prepare the DELETE statement
+	query := "DELETE FROM movies WHERE id = ?"
+	result, err := db.Exec(query, params["id"])
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if rowsAffected == 0 {
+		http.Error(w, "Movie not found", http.StatusNotFound)
+		return
+	}
+
+	// Respond with a success message
+	response := map[string]string{"message": "Movie successfully deleted"}
+	json.NewEncoder(w).Encode(response)
 }
